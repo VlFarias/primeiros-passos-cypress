@@ -24,6 +24,7 @@ describe('Orange HRM Tests', () => {
     //nickNameField: ".oxd-input--active", //não teve um atributo unico, foi utulizado esse com 13 posições e chamado a posiçao correspondente
     generacField: ".oxd-input--active", // para poder usar para vários campos, apenas mudando a posição
     submitButton: "[type='submit']",
+    selectText: "[tabindex='0']",
   } // utilziar a posição não pe a melhor solição, caso o a posição mude o ideal adicionar identificador para QA
 
   it.only('User Info Update - Success', () => { //usado only para chamar apenas ess IT
@@ -40,12 +41,11 @@ describe('Orange HRM Tests', () => {
     cy.get(selectorsList.generacField).eq(3).clear().type('Nickname')// Chamado a posicao 4 - O nome colocado dentro do type vai ser preenchido no campo
     cy.get(selectorsList.generacField).eq(4).clear().type('EmplId')
     cy.get(selectorsList.generacField).eq(5).clear().type('Others Id')
-    cy.get(selectorsList.generacField).eq(6).clear().type('Drivers License Number')
-    cy.get(selectorsList.generacField).eq(8).clear().type('SSN Number')
-    cy.get(selectorsList.generacField).eq(9).clear().type('SIN Number')
-    cy.get(selectorsList.generacField).eq(11).clear().type('Military Service')
-    cy.get(selectorsList.generacField).eq(12).clear().type('Test_Field')
-    cy.get(selectorsList.submitButton).eq(0).click() //Chamada para salvar a páguina
+    cy.get(selectorsList.selectText).eq(0).click()
+    cy.get(':nth-child(6) > span').click()
+    cy.get(selectorsList.selectText).eq(1).click()
+    cy.get('.oxd-select-dropdown > :nth-child(4)').click()
+    cy.get(selectorsList.submitButton).eq(0).click({force: true}) //Chamada para salvar a páguina - O force true dentro do click serve para força o clique mesmo com alguma coisa na frente
     cy.get('body').should('contain', 'Successfully Updated')
     cy.get('.oxd-toast-close') //Confirmando que a pagina foi salva
   })
