@@ -1,3 +1,12 @@
+// Para eu executar o cypress, usar o Git bash e o comando (npx cypress open)
+/* Commit - 
+
+  "git status" para ver o que foi modificado
+  "git add ." Incluir tudo
+  "git commit -m Mensagem" Para atulizar e adiconar a mensagem 
+  "git push" Enviar arquivos para GitHub - precisa estar na (main)
+*/
+
 import userData from '../fixtures/user-data.json' // importação do json
 
 describe('Orange HRM Tests', () => {
@@ -25,7 +34,7 @@ describe('Orange HRM Tests', () => {
   }*/
 
   it('Login - Success', () => { //usando obejto
-    cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
+    cy.visit('/auth/login') // deixando URL base usando a configuração no cyoress.config.json
     cy.get(selectorsList.usernameField).type(userData.userSuccess.username)
     cy.get(selectorsList.passwordField).type(userData.userSuccess.password)
     cy.get(selectorsList.loginButton).click()
@@ -34,7 +43,7 @@ describe('Orange HRM Tests', () => {
   })
 
   it('Login - Fail', () => {
-    cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
+    cy.visit('/auth/login')
     cy.get(selectorsList.usernameField).type(userData.userFail.username)//Usuário incorreto
     cy.get(selectorsList.passwordField).type(userData.userFail.password)//Senha incorreto
     cy.get(selectorsList.loginButton).click()
