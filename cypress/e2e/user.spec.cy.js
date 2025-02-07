@@ -14,10 +14,12 @@ import userData from '../fixtures/user-data.json'
 import LoginPage from '../pages/loginPage.js'
 import DashboardPage from '../pages/dashboardPage.js'
 import MenuPage from '../pages/menuPage.js'
+import MyInfoPage from '../pages/myInfoPage.js'
 
-const loginPage = new LoginPage() // Esse LoginPage é o nome da classe
+const loginPage = new LoginPage()
 const dashboardPage = new DashboardPage()
 const menuPage = new MenuPage()
+const myInfoPage = new MyInfoPage()
 
 describe('Orange HRM Tests', () => {
 
@@ -25,20 +27,20 @@ describe('Orange HRM Tests', () => {
     
     wrongCredentialAlert: "[role='alert']",
     
-    firstNameField: "[name='firstName']",
-    lastNameField: "[name='lastName']",
-    //nickNameField: ".oxd-input--active", //não teve um atributo unico, foi utulizado esse com 13 posições e chamado a posiçao correspondente
-    generacField: ".oxd-input--active", // para poder usar para vários campos, apenas mudando a posição
-    submitButton: "[type='submit']",
-    selectText: "[tabindex='0']",
-  } // utilziar a posição não pe a melhor solição, caso o a posição mude o ideal adicionar identificador para QA
+  }
 
-  it.only('User Info Update - Success', () => { //usado only para chamar apenas ess IT
+  it.only('User Info Update - Success', () => {
     loginPage.acessLoginPage()
     loginPage.loginWithUser(userData.userSuccess.username, userData.userSuccess.password)
     dashboardPage.checkDashboardpage()
     menuPage.acessMyInfo()
-    menuPage.acessPerformance()
+    
+    myInfoPage.fillPersonalDetails('Joao', 'Da', 'Silva')
+    myInfoPage.fillEmployeeDetatails('0147','0258','050205')
+    myInfoPage.fillStatus()
+    myInfoPage.saveForm()
+
+    /*menuPage.acessPerformance()
     menuPage.acessRecruitment()
     menuPage.acessTime()
     menuPage.acessLeave()
@@ -49,23 +51,8 @@ describe('Orange HRM Tests', () => {
     menuPage.acessClaim()
     menuPage.clickOnSearch()
     menuPage.acessHome()
-
-    //menuPage.acessMaintenance()
+    menuPage.acessMaintenance()*/
   
-    /*
-
-    cy.get(selectorsList.firstNameField).clear().type('First Name') // Usando clear() para limpar os campos antes de digitar
-    cy.get(selectorsList.lastNameField).clear().type('Last Name')
-    cy.get(selectorsList.generacField).eq(3).clear().type('Nickname')// Chamado a posicao 4 - O nome colocado dentro do type vai ser preenchido no campo
-    cy.get(selectorsList.generacField).eq(4).clear().type('EmplId')
-    cy.get(selectorsList.generacField).eq(5).clear().type('Others Id')
-    cy.get(selectorsList.selectText).eq(0).click()
-    cy.get(':nth-child(6) > span').click()
-    cy.get(selectorsList.selectText).eq(1).click()
-    cy.get('.oxd-select-dropdown > :nth-child(4)').click()
-    cy.get(selectorsList.submitButton).eq(0).click({force: true}) //Chamada para salvar a páguina - O force true dentro do click serve para força o clique mesmo com alguma coisa na frente
-    cy.get('body').should('contain', 'Successfully Updated')
-    cy.get('.oxd-toast-close') //Confirmando que a pagina foi salva*/
   })
 
   /*it('Login - Fail', () => {
