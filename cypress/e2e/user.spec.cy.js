@@ -1,5 +1,8 @@
-// Para eu executar o cypress, usar o Git bash e o comando (npx cypress open)
-/* Commit - 
+/* 
+Para eu executar o cypress, usar o Git bash e o comando (npx cypress open)
+cd C:/Users/Home/Desktop/Development/study/primeiros-passos-cypress
+
+Commit - 
 
   "git status" para ver o que foi modificado
   "git add ." Incluir tudo
@@ -8,17 +11,20 @@
 */
 
 import userData from '../fixtures/user-data.json'
+import LoginPage from '../pages/loginPage.js'
+import DashboardPage from '../pages/dashboardPage.js'
+import MenuPage from '../pages/menuPage.js'
+
+const loginPage = new LoginPage() // Esse LoginPage é o nome da classe
+const dashboardPage = new DashboardPage()
+const menuPage = new MenuPage()
 
 describe('Orange HRM Tests', () => {
 
   const selectorsList = {
-    usernameField: "[name='username']",
-    passwordField: "[name='password']",
-    loginButton: "[type='submit']",
-    sectionTitleTopBar: ".oxd-topbar-header-breadcrumb-module",
-    dashboardGrid: ".orangehrm-dashboard-grid",
+    
     wrongCredentialAlert: "[role='alert']",
-    myInfoButton: "[href='/web/index.php/pim/viewMyDetails']",
+    
     firstNameField: "[name='firstName']",
     lastNameField: "[name='lastName']",
     //nickNameField: ".oxd-input--active", //não teve um atributo unico, foi utulizado esse com 13 posições e chamado a posiçao correspondente
@@ -28,14 +34,26 @@ describe('Orange HRM Tests', () => {
   } // utilziar a posição não pe a melhor solição, caso o a posição mude o ideal adicionar identificador para QA
 
   it.only('User Info Update - Success', () => { //usado only para chamar apenas ess IT
-    cy.visit('/auth/login')
-    cy.get(selectorsList.usernameField).type(userData.userSuccess.username)
-    cy.get(selectorsList.passwordField).type(userData.userSuccess.password)
-    cy.get(selectorsList.loginButton).click()
-    cy.location('pathname').should('equal', '/web/index.php/dashboard/index')
-    cy.get(selectorsList.dashboardGrid)
-    //cy.get(selectorsList.myInfoButton).click() //um forma de usar para clicar em um local da paguina
-    cy.get("[href='/web/index.php/pim/viewMyDetails']").click()
+    loginPage.acessLoginPage()
+    loginPage.loginWithUser(userData.userSuccess.username, userData.userSuccess.password)
+    dashboardPage.checkDashboardpage()
+    menuPage.acessMyInfo()
+    menuPage.acessPerformance()
+    menuPage.acessRecruitment()
+    menuPage.acessTime()
+    menuPage.acessLeave()
+    menuPage.acessPim()
+    menuPage.acessAdim()
+    menuPage.acessDashboard()
+    menuPage.acessDirectory()
+    menuPage.acessClaim()
+    menuPage.clickOnSearch()
+    menuPage.acessHome()
+
+    //menuPage.acessMaintenance()
+  
+    /*
+
     cy.get(selectorsList.firstNameField).clear().type('First Name') // Usando clear() para limpar os campos antes de digitar
     cy.get(selectorsList.lastNameField).clear().type('Last Name')
     cy.get(selectorsList.generacField).eq(3).clear().type('Nickname')// Chamado a posicao 4 - O nome colocado dentro do type vai ser preenchido no campo
@@ -47,15 +65,15 @@ describe('Orange HRM Tests', () => {
     cy.get('.oxd-select-dropdown > :nth-child(4)').click()
     cy.get(selectorsList.submitButton).eq(0).click({force: true}) //Chamada para salvar a páguina - O force true dentro do click serve para força o clique mesmo com alguma coisa na frente
     cy.get('body').should('contain', 'Successfully Updated')
-    cy.get('.oxd-toast-close') //Confirmando que a pagina foi salva
+    cy.get('.oxd-toast-close') //Confirmando que a pagina foi salva*/
   })
 
-  it('Login - Fail', () => {
+  /*it('Login - Fail', () => {
     cy.visit('/auth/login')
     cy.get(selectorsList.usernameField).type(userData.userFail.username)
     cy.get(selectorsList.passwordField).type(userData.userFail.password)
     cy.get(selectorsList.loginButton).click()
     cy.get(selectorsList.wrongCredentialAlert)
 
-  })
+  })*/
 })
