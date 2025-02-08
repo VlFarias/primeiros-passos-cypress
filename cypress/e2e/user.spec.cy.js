@@ -1,20 +1,15 @@
-/* 
-Para eu executar o cypress, usar o Git bash e o comando (npx cypress open)
-cd C:/Users/Home/Desktop/Development/study/primeiros-passos-cypress
-
-Commit - 
-
-  "git status" para ver o que foi modificado
-  "git add ." Incluir tudo
-  "git commit -m Mensagem" Para atulizar e adiconar a mensagem 
-  "git push" Enviar arquivos para GitHub - precisa estar na (main)
-*/
+ 
+//cd C:/Users/Home/Desktop/Development/study/primeiros-passos-cypress
 
 import userData from '../fixtures/user-data.json'
 import LoginPage from '../pages/loginPage.js'
 import DashboardPage from '../pages/dashboardPage.js'
 import MenuPage from '../pages/menuPage.js'
 import MyInfoPage from '../pages/myInfoPage.js'
+
+const Chance = require('chance');
+
+const chance = new Chance();
 
 const loginPage = new LoginPage()
 const dashboardPage = new DashboardPage()
@@ -23,24 +18,18 @@ const myInfoPage = new MyInfoPage()
 
 describe('Orange HRM Tests', () => {
 
-  const selectorsList = {
-    
-    wrongCredentialAlert: "[role='alert']",
-    
-  }
-
-  it.only('User Info Update - Success', () => {
+  it('User Info Update - Success', () => {
     loginPage.acessLoginPage()
     loginPage.loginWithUser(userData.userSuccess.username, userData.userSuccess.password)
-    dashboardPage.checkDashboardpage()
+    dashboardPage.checkDashboardPage()
     menuPage.acessMyInfo()
     
-    myInfoPage.fillPersonalDetails('Joao', 'Da', 'Silva')
-    myInfoPage.fillEmployeeDetatails('0147','0258','050205')
+    myInfoPage.fillPersonalDetails(chance.first(), chance.string(), chance.last())
+    myInfoPage.fillEmployeeDetatails(chance.age(),chance.age(),chance.age())
     myInfoPage.fillStatus()
     myInfoPage.saveForm()
 
-    /*menuPage.acessPerformance()
+   /* menuPage.acessPerformance()
     menuPage.acessRecruitment()
     menuPage.acessTime()
     menuPage.acessLeave()
@@ -54,13 +43,4 @@ describe('Orange HRM Tests', () => {
     menuPage.acessMaintenance()*/
   
   })
-
-  /*it('Login - Fail', () => {
-    cy.visit('/auth/login')
-    cy.get(selectorsList.usernameField).type(userData.userFail.username)
-    cy.get(selectorsList.passwordField).type(userData.userFail.password)
-    cy.get(selectorsList.loginButton).click()
-    cy.get(selectorsList.wrongCredentialAlert)
-
-  })*/
 })
